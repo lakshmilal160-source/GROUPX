@@ -2,31 +2,43 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Publishable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Business extends Model
 {
-    protected $fillable = [
-        'name',
-        'slug',
-        'logo',
-        'tagline',
-        'description',
-        'domain',
-        'status',
-        'sort_order',
-    ];
+    use Publishable;
 
-    protected function casts(): array
+    protected $guarded = [];
+
+    public function getRouteKeyName(): string
     {
-        return [
-            'status' => 'boolean',
-        ];
+        return 'slug';
     }
 
     public function pages(): HasMany
     {
         return $this->hasMany(Page::class);
+    }
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Partner::class);
+    }
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
+    }
+    public function newsPosts(): HasMany
+    {
+        return $this->hasMany(NewsPost::class);
+    }
+    public function destinations(): HasMany
+    {
+        return $this->hasMany(Destination::class);
     }
 }
